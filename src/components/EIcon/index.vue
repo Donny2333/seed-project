@@ -9,7 +9,7 @@ export default {
     iconClass: {
       type: String,
       required: true
-    },
+    }
   }
 }
 </script>
