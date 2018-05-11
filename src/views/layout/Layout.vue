@@ -31,7 +31,7 @@ export default {
 <style rel="stylesheet/less" lang="less">
 .head {
   width: 100%;
-  height: 100px;
+  height: 90px;
   margin: 0 auto;
   background: url('../../asset/img/bg.jpg');
   color: white;

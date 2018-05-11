@@ -20,7 +20,7 @@
       </mt-popup>
     </mt-cell>
 
-    <mt-cell title="平时学习时间" :value="studyTime.value" is-link>
+    <mt-cell title="学习时间" :value="studyTime.value" is-link>
       <div style="z-index: 2000" @click="popup(studyTime)">{{studyTime.value}}</div>
       <mt-popup v-model="studyTime.showPopup" position="bottom">
         <mt-picker :slots="studyTime.slots" @change="onStudyTimeChange"></mt-picker>
