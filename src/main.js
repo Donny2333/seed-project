@@ -1,27 +1,20 @@
 import Vue from 'vue'
-
-import 'normalize.css/normalize.css'// A modern alternative to CSS resets
-
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/en'
-
-import '@/styles/index.scss' // global css
-
+import Mint from 'mint-ui'
 import App from './App'
 import router from './router'
-import store from './store'
 
-import '@/permission' // permission control
+import 'mint-ui/lib/style.css'
+import '@/style/index.less'
 
-Vue.use(ElementUI, { locale })
+Vue.use(Mint)
 
 Vue.config.productionTip = false
 
 new Vue({
   el: '#app',
-  router,
-  store,
   template: '<App/>',
-  components: { App }
+  router,
+  components: {
+    App
+  }
 })

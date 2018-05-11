@@ -1,37 +1,46 @@
 <template>
-  <div class="app-wrapper" :class="{hideSidebar:!sidebar.opened}">
-    <sidebar class="sidebar-container"></sidebar>
-    <div class="main-container">
-      <navbar></navbar>
-      <app-main></app-main>
+  <div class='main'>
+    <div class='head'>
+      <img :src="logo" alt="尚德机构">
+      <h2>{{title}}</h2>
+    </div>
+    <div class="body">
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from '@/views/layout/components'
-
+import logo from '@/asset/img/logo.png'
 export default {
   name: 'layout',
-  components: {
-    Navbar,
-    Sidebar,
-    AppMain
+  data() {
+    return {
+      logo
+    }
   },
   computed: {
-    sidebar() {
-      return this.$store.state.app.sidebar
+    title: function() {
+      return this.$route.meta.title
     }
-  }
+  },
+  mounted() {}
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-@import "src/styles/mixin.scss";
-.app-wrapper {
-  @include clearfix;
-  position: relative;
-  height: 100%;
+<style rel="stylesheet/less" lang="less">
+.head {
   width: 100%;
+  height: 100px;
+  margin: 0 auto;
+  background: url('../../asset/img/bg.jpg');
+  color: white;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+
+  img {
+    margin-right: 10px;
+  }
 }
 </style>
