@@ -6,7 +6,7 @@
     <mt-field name="area" v-validate="'required'" label="地区" placeholder="请填写地区" v-model="area">
       <span class="validate" v-show="errors.has('area')">{{ errors.first('area') }}</span>
     </mt-field>
-    <mt-field name="telphone" v-validate="'required'" label="手机号" placeholder="请填写手机号" type="tel" v-model="telphone">
+    <mt-field name="telphone" v-validate="'required|phone'" label="手机号" placeholder="请填写手机号" type="tel" v-model="telphone">
       <span class="validate" v-show="errors.has('telphone')">{{ errors.first('telphone') }}</span>
     </mt-field>
     <mt-field name="scholarship" v-validate="'required'" label="助学金金额" placeholder="请填写助学金金额" v-model="scholarship">

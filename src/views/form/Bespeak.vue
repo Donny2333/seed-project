@@ -3,7 +3,7 @@
     <mt-field name="name" v-validate="'required'" label="姓名" placeholder="请填写姓名" v-model="name">
       <span class="validate" v-show="errors.has('name')">{{ errors.first('name') }}</span>
     </mt-field>
-    <mt-field name="telphone" v-validate="'required'" label="手机号" placeholder="请填写手机号" type="tel" v-model="telphone">
+   <mt-field name="telphone" v-validate="'required|phone'" label="手机号" placeholder="请填写手机号" type="tel" v-model="telphone">
       <span class="validate" v-show="errors.has('telphone')">{{ errors.first('telphone') }}</span>
     </mt-field>
     <mt-field name="subject" v-validate="'required'" label="专业" placeholder="请填写专业" v-model="subject">
