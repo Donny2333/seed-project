@@ -15,7 +15,7 @@ import moment from 'moment'
 const formateOption = 'YYYY年MM月DD日HH时mm分ss秒'
 
 export default {
-  name: 'flow',
+  name: 'registry',
   data() {
     return {
       area: '',

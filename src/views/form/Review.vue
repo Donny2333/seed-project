@@ -1,7 +1,7 @@
 <template>
   <div>
     <mt-field label="姓名" placeholder="" v-model="name"></mt-field>
-    <mt-field label="手机号" placeholder="" v-model="telphone"></mt-field>
+    <mt-field label="手机号" placeholder="" type="tel" v-model="telphone"></mt-field>
     <mt-field label="身份证号" placeholder="" v-model="IDs"></mt-field>
     <mt-field label="家庭住址" placeholder="" v-model="homeAddress"></mt-field>
     <mt-field label="报考地区" placeholder="" v-model="regArea"></mt-field>
@@ -14,7 +14,7 @@
 <script>
 
 export default {
-  name: 'flow',
+  name: 'review',
   data() {
     return {
       name: '',
