@@ -2,11 +2,13 @@ import Vue from 'vue'
 import Mint from 'mint-ui'
 import App from './App'
 import router from './router'
+import VeeValidate from 'vee-validate'
 
 import 'mint-ui/lib/style.css'
 import '@/style/index.less'
 
 Vue.use(Mint)
+Vue.use(VeeValidate)
 
 Vue.config.productionTip = false
 

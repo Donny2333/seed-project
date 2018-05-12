@@ -43,7 +43,7 @@
 
     <mt-field label="意向" placeholder="请填写意向院校及专业" v-model="intention"></mt-field>
     <div class="submit">
-      <mt-button type="primary">提交</mt-button>
+      <mt-button type="primary" @click="submit">提交</mt-button>
     </div>
   </div>
 </template>
@@ -70,7 +70,8 @@ export default {
     },
     onAbilityChange(picker, values) {
       picker.getSlotValue(0) && (this.ability.value = picker.getSlotValue(0))
-    }
+    },
+    submit() {}
   },
   data() {
     return {
