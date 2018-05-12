@@ -1,8 +1,14 @@
 <template>
   <div>
-    <mt-field label="姓名" placeholder="" v-model="name"></mt-field>
-    <mt-field label="地区" placeholder="" v-model="regArea"></mt-field>
-    <mt-field label="手机号" placeholder="" type="tel" v-model="telphone"></mt-field>
+    <mt-field name="name" v-validate="'required'" label="姓名" placeholder="请填写姓名" v-model="name">
+      <span class="validate" v-show="errors.has('name')">{{ errors.first('name') }}</span>
+    </mt-field>
+    <mt-field name="area" v-validate="'required'" label="地区" placeholder="请填写地区" v-model="area">
+      <span class="validate" v-show="errors.has('area')">{{ errors.first('area') }}</span>
+    </mt-field>
+    <mt-field name="telphone" v-validate="'required'" label="手机号" placeholder="请填写手机号" type="tel" v-model="telphone">
+      <span class="validate" v-show="errors.has('telphone')">{{ errors.first('telphone') }}</span>
+    </mt-field>
     <mt-cell title="申请原因" :value="applyReason.value" is-link>
       <div style="z-index: 2000" @click="popup(applyReason)">{{applyReason.value}}</div>
       <mt-popup v-model="applyReason.showPopup" position="bottom">
@@ -10,12 +16,13 @@
       </mt-popup>
     </mt-cell>
     <div class="submit">
-      <mt-button type="primary">生成基本信息</mt-button>
+      <mt-button type="primary" @click="submit">生成基本信息</mt-button>
     </div>
   </div>
 </template>
 
 <script>
+import { Toast } from 'mint-ui'
 
 export default {
   name: 'stages',
@@ -23,7 +30,7 @@ export default {
     return {
       name: '',
       telphone: '',
-      regArea: '',
+      area: '',
       applyReason: {
         value: '家庭贫困',
         showPopup: false,
@@ -39,28 +46,28 @@ export default {
     }
   },
   methods: {
-    popup: function(template) {
+    popup(template) {
       template.showPopup = true
     },
     onApplyReasonChange(picker, values) {
-      picker.getSlotValue(0) && (this.applyReason.value = picker.getSlotValue(0))
+      picker.getSlotValue(0) &&
+        (this.applyReason.value = picker.getSlotValue(0))
+    },
+    submit() {
+      this.$validator.validate().then(result => {
+        if (!result) {
+          Toast({
+            message: '提交失败',
+            iconClass: 'mintui mint-toast-icon mintui-field-warning'
+          })
+        } else {
+          Toast({
+            message: '提交成功',
+            iconClass: 'mintui mint-toast-icon mintui-success'
+          })
+        }
+      })
     }
   }
 }
 </script>
-
-<style scoped>
-.mint-popup {
-  width: 100%;
-}
-
-.submit {
-  width: 100%;
-  padding: 10px;
-}
-
-.mint-button--primary {
-  width: 100%;
-  background-color: #1c51b3;
-}
-</style>

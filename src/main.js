@@ -19,13 +19,19 @@ Vue.use(VeeValidate, {
       attributes: {
         email: '邮箱',
         password: '密码',
-        name: '账号',
-        phone: '手机',
+        name: '姓名',
+        telphone: '手机号',
         area: '地区',
         job: '工作',
         age: '年龄',
         birthplace: '户籍',
-        intention: '意向'
+        intention: '意向',
+        address: '家庭住址',
+        regArea: '报考地区',
+        subject: '专业',
+        orderTime: '预约时间',
+        schoolAddr: '分校地址',
+        scholarship: '助学金金额'
       }
     }
   }

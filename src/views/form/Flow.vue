@@ -64,7 +64,7 @@ import { Toast } from 'mint-ui'
 export default {
   name: 'flow',
   methods: {
-    popup: function(template) {
+    popup(template) {
       template.showPopup = true
     },
     onEducationChange(picker, values) {
@@ -170,24 +170,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.mint-popup {
-  width: 100%;
-}
-
-.submit {
-  width: 100%;
-  padding: 10px;
-}
-
-.mint-button--primary {
-  width: 100%;
-  background-color: #1c51b3;
-}
-
-.validate {
-  color: red;
-  font-size: 12px;
-}
-</style>
