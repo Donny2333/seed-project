@@ -1,6 +1,8 @@
 <template>
   <div>
-    <mt-field label="地区" placeholder="请填写地区" v-model="area"></mt-field>
+    <mt-field name="area" v-validate="'required'" label="地区" placeholder="请填写地区" v-model="area">
+      <span class="validate" v-show="errors.has('area')">{{ errors.first('area') }}</span>
+    </mt-field>
 
     <mt-cell title="学历" :value="education.value" is-link>
       <div style="z-index: 2000" @click="popup(education)">{{education.value}}</div>
@@ -9,9 +11,15 @@
       </mt-popup>
     </mt-cell>
 
-    <mt-field label="工作" placeholder="请填写工作" v-model="job"></mt-field>
-    <mt-field label="年龄" placeholder="请填写年龄" v-model="age"></mt-field>
-    <mt-field label="户籍" placeholder="请填写户籍" v-model="birthplace"></mt-field>
+    <mt-field name="job" v-validate="'required'" label="工作" placeholder="请填写工作" v-model="job">
+      <span class="validate" v-show="errors.has('job')">{{ errors.first('job') }}</span>
+    </mt-field>
+    <mt-field name="age" v-validate="'required'" label="年龄" placeholder="请填写年龄" v-model="age">
+      <span class="validate" v-show="errors.has('age')">{{ errors.first('age') }}</span>
+    </mt-field>
+    <mt-field name="birthplace" v-validate="'required'" label="户籍" placeholder="请填写户籍" v-model="birthplace">
+      <span class="validate" v-show="errors.has('birthplace')">{{ errors.first('birthplace') }}</span>
+    </mt-field>
 
     <mt-cell title="考证目的" :value="purpose.value" is-link>
       <div style="z-index: 2000" @click="popup(purpose)">{{purpose.value}}</div>
@@ -41,7 +49,9 @@
       </mt-popup>
     </mt-cell>
 
-    <mt-field label="意向" placeholder="请填写意向院校及专业" v-model="intention"></mt-field>
+    <mt-field name="intention" v-validate="'required'" label="意向" placeholder="请填写意向院校及专业" v-model="intention">
+      <span class="validate" v-show="errors.has('intention')">{{ errors.first('intention') }}</span>
+    </mt-field>
     <div class="submit">
       <mt-button type="primary" @click="submit">提交</mt-button>
     </div>
@@ -49,6 +59,8 @@
 </template>
 
 <script>
+import { Toast } from 'mint-ui'
+
 export default {
   name: 'flow',
   methods: {
@@ -71,7 +83,15 @@ export default {
     onAbilityChange(picker, values) {
       picker.getSlotValue(0) && (this.ability.value = picker.getSlotValue(0))
     },
-    submit() {}
+    submit() {
+      this.$validator.validate().then(result => {
+        if (!result) {
+          Toast({
+            message: '请检查字段'
+          })
+        }
+      })
+    }
   },
   data() {
     return {
@@ -158,5 +178,10 @@ export default {
 .mint-button--primary {
   width: 100%;
   background-color: #1c51b3;
+}
+
+.validate {
+  color: red;
+  font-size: 12px;
 }
 </style>
