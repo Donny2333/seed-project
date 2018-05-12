@@ -87,7 +87,13 @@ export default {
       this.$validator.validate().then(result => {
         if (!result) {
           Toast({
-            message: '请检查字段'
+            message: '提交失败',
+            iconClass: 'mintui mint-toast-icon mintui-field-warning'
+          })
+        } else {
+          Toast({
+            message: '提交成功',
+            iconClass: 'mintui mint-toast-icon mintui-success'
           })
         }
       })
