@@ -45,10 +45,10 @@ export default {
             家庭住址: this.homeAddress,
             报考地区: this.regArea,
             申请状态: [
-              mom.add(1, 'S').format('H时m分s秒，系统初审通过'),
-              mom.add(3, 'S').format('H时m分s秒，部门负责人审核通过'),
-              mom.add(20, 'S').format('H时m分s秒，公益服务部审核通过'),
-              mom.add(42, 'S').format('H时m分s秒，财务部审核批准')
+              mom.add(1, 'M').add(35, 'S').format('H时m分s秒，系统初审通过'),
+              mom.add(4, 'M').add(62, 'S').format('H时m分s秒，部门负责人审核通过'),
+              mom.add(7, 'M').add(97, 'S').format('H时m分s秒，公益服务部审核通过'),
+              mom.add(10, 'M').add(125, 'S').format('H时m分s秒，财务部审核批准')
             ],
             初审编号: 'XSCS' + mom.format('YYYY_MDHms')
           }
