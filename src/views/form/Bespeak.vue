@@ -3,7 +3,7 @@
     <mt-field name="name" v-validate="'required'" label="姓名" placeholder="请填写姓名" v-model="name">
       <span class="validate" v-show="errors.has('name')">{{ errors.first('name') }}</span>
     </mt-field>
-   <mt-field name="telphone" v-validate="'required|phone'" label="手机号" placeholder="请填写手机号" type="tel" v-model="telphone">
+    <mt-field name="telphone" v-validate="'required|phone'" label="手机号" placeholder="请填写手机号" type="tel" v-model="telphone">
       <span class="validate" v-show="errors.has('telphone')">{{ errors.first('telphone') }}</span>
     </mt-field>
     <mt-field name="subject" v-validate="'required'" label="专业" placeholder="请填写专业" v-model="subject">
@@ -29,6 +29,7 @@
 
 <script>
 import { Toast } from 'mint-ui'
+import { create } from '@/api'
 
 export default {
   name: 'bespeak',
@@ -69,10 +70,42 @@ export default {
             iconClass: 'mintui mint-toast-icon mintui-field-warning'
           })
         } else {
-          Toast({
-            message: '提交成功',
-            iconClass: 'mintui mint-toast-icon mintui-success'
-          })
+          const form = {
+            姓名: this.name,
+            手机号: this.telphone,
+            专业: this.subject,
+            班型: this.classType.value,
+            预约时间: this.orderTime,
+            分校地址: this.regArea
+          }
+          create(
+            Object.assign(
+              {
+                system_id: '5'
+              },
+              form
+            )
+          ).then(
+            res => {
+              this.$router.replace({
+                name: 'Result',
+                params: {
+                  title: this.$route.meta.title,
+                  form: form
+                }
+              })
+              Toast({
+                message: '提交成功',
+                iconClass: 'mintui mint-toast-icon mintui-success'
+              })
+            },
+            err => {
+              Toast({
+                message: '提交失败：' + err,
+                iconClass: 'mintui mint-toast-icon mintui-field-warning'
+              })
+            }
+          )
         }
       })
     }

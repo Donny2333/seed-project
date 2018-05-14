@@ -13,6 +13,7 @@ import Bespeak from '../views/form/Bespeak'
 import Stages from '../views/form/Stages'
 import Grant from '../views/form/Grant'
 import Discount from '../views/form/Discount'
+import Result from '../views/form/Result'
 
 export const constantRouterMap = [{
   path: '/',
@@ -82,6 +83,10 @@ export const constantRouterMap = [{
     meta: {
       title: '优惠券申请系统'
     }
+  }, {
+    path: '/result/',
+    name: 'Result',
+    component: Result
   }]
 }]
 

@@ -60,6 +60,7 @@
 
 <script>
 import { Toast } from 'mint-ui'
+import { create } from '@/api'
 
 export default {
   name: 'flow',
@@ -91,10 +92,46 @@ export default {
             iconClass: 'mintui mint-toast-icon mintui-field-warning'
           })
         } else {
-          Toast({
-            message: '提交成功',
-            iconClass: 'mintui mint-toast-icon mintui-success'
-          })
+          const form = {
+            地区: this.area,
+            学历: this.education.value,
+            工作: this.job,
+            年龄: this.age,
+            户籍: this.birthplace,
+            考证目的: this.purpose.value,
+            学习时间: this.studyTime.value,
+            取证时间: this.graduateTime.value,
+            学习能力: this.ability.value,
+            意向: this.intention
+          }
+          create(
+            Object.assign(
+              {
+                system_id: '1'
+              },
+              form
+            )
+          ).then(
+            res => {
+              this.$router.replace({
+                name: 'Result',
+                params: {
+                  title: this.$route.meta.title,
+                  form: form
+                }
+              })
+              Toast({
+                message: '提交成功',
+                iconClass: 'mintui mint-toast-icon mintui-success'
+              })
+            },
+            err => {
+              Toast({
+                message: '提交失败：' + err,
+                iconClass: 'mintui mint-toast-icon mintui-field-warning'
+              })
+            }
+          )
         }
       })
     }

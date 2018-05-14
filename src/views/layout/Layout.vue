@@ -20,8 +20,8 @@ export default {
     }
   },
   computed: {
-    title: function() {
-      return this.$route.meta.title
+    title() {
+      return this.$route.meta.title || this.$route.params.title || ''
     }
   },
   mounted() {}
