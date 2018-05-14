@@ -19,7 +19,7 @@ export default {
           router: 'flow'
         },
         {
-          name: '考位截杀',
+          name: '考位信息',
           router: 'runOut'
         },
         {

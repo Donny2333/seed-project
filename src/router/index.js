@@ -25,7 +25,7 @@ export const constantRouterMap = [{
     name: 'Home',
     component: Home,
     meta: {
-      title: '第六十孵化器对接页面'
+      title: '中端学员对接页面'
     }
   }, {
     path: '/flow',
