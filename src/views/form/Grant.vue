@@ -25,7 +25,9 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { Toast } from 'mint-ui'
+import { create } from '@/api'
 
 export default {
   name: 'grant',
@@ -74,10 +76,49 @@ export default {
             iconClass: 'mintui mint-toast-icon mintui-field-warning'
           })
         } else {
-          Toast({
-            message: '提交成功',
-            iconClass: 'mintui mint-toast-icon mintui-success'
-          })
+          const mom = moment(new Date())
+          const form = {
+            姓名: this.name,
+            地区: this.area,
+            手机号: this.telphone,
+            助学金金额: this.scholarship,
+            申请原因: this.applyReason.value,
+            申请状态: [
+              mom.add(1, 'S').format('H时m分s秒，系统初审通过'),
+              mom.add(3, 'S').format('H时m分s秒，部门负责人审核通过'),
+              mom.add(42, 'S').format('H时m分s秒，财务部审核批准')
+            ],
+            助学金编号: 'ZXJ' + mom.format('YYYY_MDHms')
+          }
+
+          create(
+            Object.assign(
+              {
+                system_id: '7'
+              },
+              form
+            )
+          ).then(
+            res => {
+              this.$router.replace({
+                name: 'Result',
+                params: {
+                  title: this.$route.meta.title,
+                  form: form
+                }
+              })
+              Toast({
+                message: '提交成功',
+                iconClass: 'mintui mint-toast-icon mintui-success'
+              })
+            },
+            err => {
+              Toast({
+                message: '提交失败：' + err,
+                iconClass: 'mintui mint-toast-icon mintui-field-warning'
+              })
+            }
+          )
         }
       })
     }

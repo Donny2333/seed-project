@@ -22,7 +22,9 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { Toast } from 'mint-ui'
+import { create } from '@/api'
 
 export default {
   name: 'review',
@@ -35,10 +37,50 @@ export default {
             iconClass: 'mintui mint-toast-icon mintui-field-warning'
           })
         } else {
-          Toast({
-            message: '提交成功',
-            iconClass: 'mintui mint-toast-icon mintui-success'
-          })
+          const mom = moment(new Date())
+          const form = {
+            姓名: this.name,
+            手机号: this.telphone,
+            身份证号: this.IDs,
+            家庭住址: this.homeAddress,
+            报考地区: this.regArea,
+            申请状态: [
+              mom.add(1, 'S').format('H时m分s秒，系统初审通过'),
+              mom.add(3, 'S').format('H时m分s秒，部门负责人审核通过'),
+              mom.add(20, 'S').format('H时m分s秒，公益服务部审核通过'),
+              mom.add(42, 'S').format('H时m分s秒，财务部审核批准')
+            ],
+            初审编号: 'XSCS' + mom.format('YYYY_MDHms')
+          }
+
+          create(
+            Object.assign(
+              {
+                system_id: '4'
+              },
+              form
+            )
+          ).then(
+            res => {
+              this.$router.replace({
+                name: 'Result',
+                params: {
+                  title: this.$route.meta.title,
+                  form: form
+                }
+              })
+              Toast({
+                message: '提交成功',
+                iconClass: 'mintui mint-toast-icon mintui-success'
+              })
+            },
+            err => {
+              Toast({
+                message: '提交失败：' + err,
+                iconClass: 'mintui mint-toast-icon mintui-field-warning'
+              })
+            }
+          )
         }
       })
     }
