@@ -18,10 +18,10 @@ export default {
           name: '按需流程',
           router: 'flow'
         },
-        {
-          name: '考位信息',
-          router: 'runOut'
-        },
+        // {
+        //   name: '考位信息',
+        //   router: 'runOut'
+        // },
         {
           name: '新生注册',
           router: 'registry'
@@ -38,10 +38,10 @@ export default {
           name: '申请分期',
           router: 'stages'
         },
-        {
-          name: '申请助学金',
-          router: 'grant'
-        },
+        // {
+        //   name: '申请助学金',
+        //   router: 'grant'
+        // },
         {
           name: '申请优惠',
           router: 'discount'
