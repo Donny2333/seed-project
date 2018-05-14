@@ -70,9 +70,9 @@ export default {
             手机号: this.telphone,
             申请原因: this.applyReason.value,
             申请状态: [
-              mom.add(1, 'S').format('H时m分s秒，系统初审通过'),
-              mom.add(3, 'S').format('H时m分s秒，部门负责人审核通过'),
-              mom.add(42, 'S').format('H时m分s秒，财务部审核批准')
+              mom.add(1, 'M').add(35, 'S').format('H时m分s秒，系统初审通过'),
+              mom.add(4, 'M').add(62, 'S').format('H时m分s秒，部门负责人审核通过'),
+              mom.add(10, 'M').add(125, 'S').format('H时m分s秒，财务部审核批准')
             ],
             分期码编号: 'FQM' + mom.format('YYYY_MDHms')
           }
