@@ -42,7 +42,7 @@ export default {
       orderTime: '',
       regArea: '',
       classType: {
-        value: '4980',
+        value: 5980,
         showPopup: false,
         slots: [
           {
