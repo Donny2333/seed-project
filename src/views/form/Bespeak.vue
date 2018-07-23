@@ -47,7 +47,7 @@ export default {
         slots: [
           {
             flex: 1,
-            values: ['4980', '7980', '9800', '13800', '15960'],
+            values: [5980, 8980, 9800, 12480, 14800, 16800],
             className: 'slot3',
             textAlign: 'center'
           }
