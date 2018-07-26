@@ -46,11 +46,13 @@ export default {
     getData() {
       this.form = this.$route.params.form
       this.showDetail = this.$route.params.showDetail
+      this.remainHour = this.$store.state.remainHour
     },
     onClick() {
       MessageBox.prompt(' ', '分期时间设置').then(({ value, action }) => {
         if (action === 'confirm' && value > 0) {
           this.remainHour = value
+          this.$store.dispatch('SetRemainHour', value)
         }
       }).catch(() => {})
     }

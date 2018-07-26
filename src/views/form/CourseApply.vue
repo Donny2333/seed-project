@@ -54,6 +54,7 @@
 <script>
 import * as moment from 'moment'
 import { Toast } from 'mint-ui'
+import { MessageBox } from 'mint-ui'
 
 export default {
   data() {
@@ -129,6 +130,13 @@ export default {
       classTypePicker: ['1', '1-1']
     }
   },
+  computed: {
+    deadtime() {
+      return moment()
+        .add(this.remainHour, 'hours')
+        .format('YYYY年MM月DD日HH点mm分')
+    }
+  },
   mounted() {
     const routeParams = this.$route.params
 
@@ -142,6 +150,8 @@ export default {
 
     this.regArea.value =
       (routeParams.regArea && routeParams.regArea.value) || this.regArea.value
+
+    this.remainHour = this.$store.state.remainHour
   },
   methods: {
     popup(template) {
@@ -194,6 +204,14 @@ export default {
             iconClass: 'mintui mint-toast-icon mintui-field-warning'
           })
         } else {
+          MessageBox({
+            title: `${this.subject} 专业 ${this.classType.value} 班型 申请成功`,
+            message: `<div class="msgbox-main"><div class="disc">此申请<span class="red">${
+              this.remainHour
+            }小时</span>内有效，请于<span class="red">${
+              this.deadtime
+            }</span>前完成分期手续。</div><div class="disc red">注：每个手机号只能申请一次请勿重复申请！由此带来不便，敬请谅解。</div></div>`
+          })
           Toast({
             message: '提交成功',
             iconClass: 'mintui mint-toast-icon mintui-success'
@@ -204,3 +222,29 @@ export default {
   }
 }
 </script>
+
+<style>
+.mint-msgbox-title {
+  padding: 0 20px;
+}
+
+.msgbox-main {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.647058823529412);
+  width: 100%;
+  text-align: left;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.disc {
+  padding: 0 2.5%;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.red {
+  color: red;
+}
+</style>

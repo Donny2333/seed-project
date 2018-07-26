@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    remainHour: 12,
     cities: [
       '安徽',
       '北京',
@@ -74,9 +75,18 @@ const store = new Vuex.Store({
       }
     ]
   },
-  mutations: {},
+  mutations: {
+    SET_REMAIN_HOUR: (state, remainHour) => {
+      state.remainHour = remainHour
+    }
+  },
   getters: {},
-  actions: {}
+  actions: {
+    SetRemainHour: ({ commit }, data) => {
+      console.log(data)
+      commit('SET_REMAIN_HOUR', data)
+    }
+  }
 })
 
 export default store

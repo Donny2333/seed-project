@@ -24,8 +24,8 @@
 <script>
 import moment from 'moment'
 import { Toast } from 'mint-ui'
-import { Indicator } from 'mint-ui'
-import { create } from '@/api'
+// import { Indicator } from 'mint-ui'
+// import { create } from '@/api'
 
 export default {
   name: 'stages',
@@ -87,39 +87,39 @@ export default {
             分期码编号: 'FQM' + mom.format('YYYY_MDHms')
           }
 
-          Indicator.open('加载中...')
+          // Indicator.open('加载中...')
 
-          create(
-            Object.assign(
-              {
-                system_id: '6'
-              },
-              form
-            )
-          ).then(
-            res => {
-              this.$router.replace({
-                name: 'Result',
-                params: {
-                  title: this.$route.meta.title,
-                  form: form,
-                  showDetail: true
-                }
-              })
-              Indicator.close()
-              Toast({
-                message: '提交成功',
-                iconClass: 'mintui mint-toast-icon mintui-success'
-              })
-            },
-            err => {
-              Indicator.close()
-              Toast({
-                message: '提交失败：' + err,
-                iconClass: 'mintui mint-toast-icon mintui-field-warning'
-              })
+          // create(
+          //   Object.assign(
+          //     {
+          //       system_id: '6'
+          //     },
+          //     form
+          //   )
+          // ).then(
+          //   res => {
+          this.$router.replace({
+            name: 'Result',
+            params: {
+              title: this.$route.meta.title,
+              form: form,
+              showDetail: true
             }
-          )
+          })
+          //     Indicator.close()
+          //     Toast({
+          //       message: '提交成功',
+          //       iconClass: 'mintui mint-toast-icon mintui-success'
+          //     })
+          //   },
+          //   err => {
+          //     Indicator.close()
+          //     Toast({
+          //       message: '提交失败：' + err,
+          //       iconClass: 'mintui mint-toast-icon mintui-field-warning'
+          //     })
+          //   }
+          // )
         }
       })
     }
