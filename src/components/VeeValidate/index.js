@@ -25,10 +25,16 @@ Vue.use(VeeValidate, {
         intention: '意向',
         address: '家庭住址',
         regArea: '报考地区',
+        academy: '院校',
         subject: '专业',
+        classType: '班型',
         orderTime: '预约时间',
         schoolAddr: '分校地址',
-        scholarship: '助学金金额'
+        scholarship: '助学金金额',
+        deadline: '截止日期',
+        quota: '总名额',
+        assigned: '已申请名额',
+        remain: '剩余名额'
       }
     }
   }

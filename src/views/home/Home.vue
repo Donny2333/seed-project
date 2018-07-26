@@ -2,7 +2,7 @@
   <div class="table">
     <div class="cell" v-for="(cell, index) in table" :key="index">
       <div class="cell-content">
-        <mt-button type="primary" plain @click.native="handleClick(cell.router)">{{cell.name}}</mt-button>
+        <mt-button type="primary" plain @click.native="handleClick(cell.router)" :style="cell.style">{{cell.name}}</mt-button>
       </div>
     </div>
   </div>
@@ -45,6 +45,13 @@ export default {
         {
           name: '申请优惠',
           router: 'discount'
+        },
+        {
+          name: '开班名额查询&申请',
+          router: 'course-setting',
+          style: {
+            fontSize: '12px'
+          }
         }
       ]
     }

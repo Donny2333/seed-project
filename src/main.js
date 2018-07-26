@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Mint from 'mint-ui'
 import App from './App'
 import router from './router'
+import store from './store'
 
 import 'mint-ui/lib/style.css'
 import '@/style/index.less'
@@ -16,6 +17,7 @@ new Vue({
   el: '#app',
   template: '<App/>',
   router,
+  store,
   components: {
     App
   }

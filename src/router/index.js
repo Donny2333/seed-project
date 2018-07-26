@@ -87,6 +87,27 @@ export const constantRouterMap = [{
     path: '/result/',
     name: 'Result',
     component: Result
+  }, {
+    path: '/course-setting',
+    name: 'CourseSetting',
+    component: () => import('../views/form/CourseSetting'),
+    meta: {
+      title: '开班名额设置'
+    }
+  }, {
+    path: '/course-query',
+    name: 'CourseQuery',
+    component: () => import('../views/form/CourseQuery'),
+    meta: {
+      title: '开班名额查询'
+    }
+  }, {
+    path: '/course-apply',
+    name: 'CourseApply',
+    component: () => import('../views/form/CourseApply'),
+    meta: {
+      title: '开班名额申请'
+    }
   }]
 }]
 

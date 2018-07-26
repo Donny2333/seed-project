@@ -24,6 +24,7 @@
 <script>
 import moment from 'moment'
 import { Toast } from 'mint-ui'
+import { Indicator } from 'mint-ui'
 import { create } from '@/api'
 
 export default {
@@ -70,12 +71,23 @@ export default {
             手机号: this.telphone,
             申请原因: this.applyReason.value,
             申请状态: [
-              mom.add(1, 'M').add(35, 'S').format('H时m分s秒，系统初审通过'),
-              mom.add(4, 'M').add(62, 'S').format('H时m分s秒，部门负责人审核通过'),
-              mom.add(10, 'M').add(125, 'S').format('H时m分s秒，财务部审核批准')
+              mom
+                .add(1, 'M')
+                .add(35, 'S')
+                .format('H时m分s秒，系统初审通过'),
+              mom
+                .add(4, 'M')
+                .add(62, 'S')
+                .format('H时m分s秒，部门负责人审核通过'),
+              mom
+                .add(10, 'M')
+                .add(125, 'S')
+                .format('H时m分s秒，财务部审核批准')
             ],
             分期码编号: 'FQM' + mom.format('YYYY_MDHms')
           }
+
+          Indicator.open('加载中...')
 
           create(
             Object.assign(
@@ -90,15 +102,18 @@ export default {
                 name: 'Result',
                 params: {
                   title: this.$route.meta.title,
-                  form: form
+                  form: form,
+                  showDetail: true
                 }
               })
+              Indicator.close()
               Toast({
                 message: '提交成功',
                 iconClass: 'mintui mint-toast-icon mintui-success'
               })
             },
             err => {
+              Indicator.close()
               Toast({
                 message: '提交失败：' + err,
                 iconClass: 'mintui mint-toast-icon mintui-field-warning'

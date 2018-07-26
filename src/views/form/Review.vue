@@ -24,6 +24,7 @@
 <script>
 import moment from 'moment'
 import { Toast } from 'mint-ui'
+import { Indicator } from 'mint-ui'
 import { create } from '@/api'
 
 export default {
@@ -53,6 +54,8 @@ export default {
             初审编号: 'XSCS' + mom.format('YYYY_MDHms')
           }
 
+          Indicator.open('加载中...')
+
           create(
             Object.assign(
               {
@@ -69,12 +72,14 @@ export default {
                   form: form
                 }
               })
+              Indicator.close()
               Toast({
                 message: '提交成功',
                 iconClass: 'mintui mint-toast-icon mintui-success'
               })
             },
             err => {
+              Indicator.close()
               Toast({
                 message: '提交失败：' + err,
                 iconClass: 'mintui mint-toast-icon mintui-field-warning'

@@ -53,13 +53,14 @@
       <span class="validate" v-show="errors.has('intention')">{{ errors.first('intention') }}</span>
     </mt-field>
     <div class="submit">
-      <mt-button type="primary" @click="submit">提交</mt-button>
+      <mt-button type="primary" @click="submit">查询剩余开班名额</mt-button>
     </div>
   </div>
 </template>
 
 <script>
 import { Toast } from 'mint-ui'
+import { Indicator } from 'mint-ui'
 import { create } from '@/api'
 
 export default {
@@ -104,6 +105,9 @@ export default {
             学习能力: this.ability.value,
             意向: this.intention
           }
+
+          Indicator.open('加载中...')
+
           create(
             Object.assign(
               {
@@ -120,12 +124,14 @@ export default {
                   form: form
                 }
               })
+              Indicator.close()
               Toast({
                 message: '提交成功',
                 iconClass: 'mintui mint-toast-icon mintui-success'
               })
             },
             err => {
+              Indicator.close()
               Toast({
                 message: '提交失败：' + err,
                 iconClass: 'mintui mint-toast-icon mintui-field-warning'
