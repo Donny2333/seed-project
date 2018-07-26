@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://collect.frontend.web.fei'
+const baseUrl = 'http://www.bjdblx.com/api'
 
 export const request = (method = 'get', url, headers, options = {}) => {
   if (arguments.length === 3) {
