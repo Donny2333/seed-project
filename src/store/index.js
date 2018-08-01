@@ -47,6 +47,10 @@ const store = new Vuex.Store({
           },
           {
             id: '1-4',
+            name: '培优学年班 7480'
+          },
+          {
+            id: '1-5',
             name: 'AI智能学习班 5890'
           }
         ]
@@ -69,6 +73,10 @@ const store = new Vuex.Store({
           },
           {
             id: '2-4',
+            name: '培优学年班 10800'
+          },
+          {
+            id: '2-5',
             name: 'AI智能学习班 9800'
           }
         ]
