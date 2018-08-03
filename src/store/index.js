@@ -91,7 +91,6 @@ const store = new Vuex.Store({
   getters: {},
   actions: {
     SetRemainHour: ({ commit }, data) => {
-      console.log(data)
       commit('SET_REMAIN_HOUR', data)
     }
   }
