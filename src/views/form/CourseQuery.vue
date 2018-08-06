@@ -203,27 +203,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.mint-msgbox-title {
-  padding: 0 20px;
-}
-
-.msgbox-deadline {
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  line-height: 28px;
-}
-
-.msgbox-main {
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.647058823529412);
-  width: 40%;
-  text-align: left;
-  display: inline-block;
-  font-size: 14px;
-  line-height: 28px;
-}
-</style>

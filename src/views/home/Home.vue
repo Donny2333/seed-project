@@ -36,7 +36,7 @@ export default {
         },
         {
           name: '申请分期',
-          router: 'stages'
+          router: 'stage-setting'
         },
         // {
         //   name: '申请助学金',

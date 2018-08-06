@@ -47,9 +47,21 @@ export const constantRouterMap = [
         meta: { title: '分校预约系统' }
       },
       {
-        path: '/stages',
-        name: 'Stages',
-        component: () => import('../views/form/Stages'),
+        path: '/stage-setting',
+        name: 'StageSetting',
+        component: () => import('../views/form/StageSetting'),
+        meta: { title: '申请分期名额设置' }
+      },
+      {
+        path: '/stage-query',
+        name: 'StageQuery',
+        component: () => import('../views/form/StageQuery'),
+        meta: { title: '申请分期名额查询' }
+      },
+      {
+        path: '/stage-record',
+        name: 'StageRecord',
+        component: () => import('../views/form/StageRecord'),
         meta: { title: '学费分期申请系统' }
       },
       {

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <mt-cell title="分期截止时间" :value="deadline" is-link>
+      <div style="z-index: 2000" @click="openPicker()">{{deadline}}</div>
+      <mt-datetime-picker ref="picker" type="date" v-model="datePicker" @confirm="handleConfirm" />
+    </mt-cell>
     <mt-field name="name" v-validate="'required'" label="姓名" placeholder="请填写姓名" v-model="name">
       <span class="validate" v-show="errors.has('name')">{{ errors.first('name') }}</span>
     </mt-field>
@@ -31,6 +35,12 @@ export default {
   name: 'stages',
   data() {
     return {
+      datePicker: moment()
+        .add(2, 'days')
+        .toDate(),
+      deadline: moment()
+        .add(2, 'days')
+        .format('YYYY-MM-DD'),
       name: '',
       telphone: '',
       area: '',
@@ -48,9 +58,20 @@ export default {
       }
     }
   },
+  mounted() {
+    const routeParams = this.$route.params
+
+    this.datePicker = routeParams.datePicker || this.datePicker
+  },
   methods: {
     popup(template) {
       template.showPopup = true
+    },
+    openPicker() {
+      this.$refs.picker.open()
+    },
+    handleConfirm(date) {
+      this.deadline = moment(date).format('YYYY-MM-DD')
     },
     onApplyReasonChange(picker, values) {
       picker.getSlotValue(0) &&

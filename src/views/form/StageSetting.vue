@@ -1,6 +1,6 @@
 <template>
-  <div class="course-setting">
-    <mt-cell title="封班截止时间" :value="deadline" is-link>
+  <div class="stage-setting">
+    <mt-cell title="分期截止时间" :value="deadline" is-link>
       <div style="z-index: 2000" @click="openPicker()">{{deadline}}</div>
       <mt-datetime-picker ref="picker" type="date" v-model="datePicker" @confirm="handleConfirm" />
     </mt-cell>
@@ -9,20 +9,6 @@
       <div style="z-index: 2000" @click="popup(regArea)">{{regArea.value}}</div>
       <mt-popup v-model="regArea.showPopup" position="bottom">
         <mt-picker :slots="regArea.slots" v-model="regArea.value" @change="onRegAreaChange"></mt-picker>
-      </mt-popup>
-    </mt-cell>
-
-    <mt-field name="academy" v-validate="'required'" label="院校" placeholder="请填写院校" v-model="academy">
-      <span class="validate" v-show="errors.has('academy')">{{ errors.first('academy') }}</span>
-    </mt-field>
-    <mt-field name="subject" v-validate="'required'" label="专业" placeholder="请填写专业" v-model="subject">
-      <span class="validate" v-show="errors.has('subject')">{{ errors.first('subject') }}</span>
-    </mt-field>
-
-    <mt-cell title="班型" :value="classType.value" is-link>
-      <div style="z-index: 2000" @click="popup(classType)">{{classType.value}}</div>
-      <mt-popup v-model="classType.showPopup" position="bottom">
-        <mt-picker :slots="classType.slots" :showToolbar="true" value-key="name" @change="onClassTypeChange"></mt-picker>
       </mt-popup>
     </mt-cell>
 
@@ -48,7 +34,6 @@ import { Toast } from 'mint-ui'
 
 export default {
   data() {
-    const classType = this.$store.state.classType
     const cities = this.$store.state.cities
 
     return {
@@ -70,39 +55,8 @@ export default {
           }
         ]
       },
-
-      academy: '',
-      subject: '',
-
-      classType: {
-        value: '',
-        showPopup: false,
-        slots: [
-          {
-            flex: 1,
-            values: classType,
-            defaultIndex: 10,
-            className: 'slot1',
-            textAlign: 'right'
-          },
-          {
-            divider: true,
-            content: '-',
-            className: 'slot2'
-          },
-          {
-            flex: 2,
-            values: classType[0].childs,
-            defaultIndex: 0,
-            className: 'slot3',
-            textAlign: 'left'
-          }
-        ]
-      },
-      classTypePicker: ['1', '1-1'],
-
-      quota: 100,
-      assigned: 80
+      quota: 1000,
+      assigned: 980
     }
   },
   computed: {
@@ -128,25 +82,6 @@ export default {
     handleConfirm(date) {
       this.deadline = moment(date).format('YYYY-MM-DD')
     },
-    onClassTypeChange(picker, values) {
-      const classType = this.$store.state.classType
-
-      if (!values[0]) {
-        this.$nextTick(() => {
-          picker.setValues([classType[0], classType[0].childs[0]])
-        })
-      } else {
-        picker.setSlotValues(1, values[0].childs)
-        this.classTypePicker = [
-          picker.getSlotValue(0).id,
-          picker.getSlotValue(1).id
-        ]
-        this.classType.value = [
-          picker.getSlotValue(0).name,
-          picker.getSlotValue(1).name
-        ].join(' ')
-      }
-    },
     onRegAreaChange(picker, values) {
       picker.getSlotValue(0) && (this.regArea.value = picker.getSlotValue(0))
     },
@@ -159,15 +94,11 @@ export default {
           })
         } else {
           this.$router.replace({
-            name: 'CourseQuery',
+            name: 'StageQuery',
             params: {
               datePicker: this.datePicker,
               deadline: this.deadline,
               regArea: this.regArea,
-              academy: this.academy,
-              subject: this.subject,
-              classType: this.classType,
-              classTypePicker: this.classTypePicker,
               quota: this.quota,
               assigned: this.assigned
             }
