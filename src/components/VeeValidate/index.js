@@ -25,6 +25,7 @@ Vue.use(VeeValidate, {
         intention: '意向',
         address: '家庭住址',
         regArea: '报考地区',
+        province: '报考省份',
         academy: '院校',
         subject: '专业',
         classType: '班型',

@@ -9,12 +9,38 @@
     <mt-field name="IDs" v-validate="'required'" label="身份证号" placeholder="请填写身份证号" v-model="IDs">
       <span class="validate" v-show="errors.has('IDs')">{{ errors.first('IDs') }}</span>
     </mt-field>
-    <mt-field name="address" v-validate="'required'" label="家庭住址" placeholder="请填写家庭住址" v-model="homeAddress">
-      <span class="validate" v-show="errors.has('address')">{{ errors.first('address') }}</span>
+    <mt-field name="province" v-validate="'required'" label="报考省份" placeholder="请填写报考省份" v-model="province">
+      <span class="validate" v-show="errors.has('province')">{{ errors.first('province') }}</span>
     </mt-field>
-    <mt-field name="regArea" v-validate="'required'" label="报考地区" placeholder="请填写报考地区" v-model="regArea">
-      <span class="validate" v-show="errors.has('regArea')">{{ errors.first('regArea') }}</span>
-    </mt-field>
+
+    <mt-cell title="是否有考试违规记录" :value="exam.value" is-link>
+      <div style="z-index: 2000" @click="popup(exam)">{{exam.value}}</div>
+      <mt-popup v-model="exam.showPopup" position="bottom">
+        <mt-picker :slots="exam.slots" @change="onPickerChange($event, exam)"></mt-picker>
+      </mt-popup>
+    </mt-cell>
+
+    <mt-cell title="是否有买证违规记录" :value="certificate.value" is-link>
+      <div style="z-index: 2000" @click="popup(certificate)">{{certificate.value}}</div>
+      <mt-popup v-model="certificate.showPopup" position="bottom">
+        <mt-picker :slots="certificate.slots" @change="onPickerChange($event, certificate)"></mt-picker>
+      </mt-popup>
+    </mt-cell>
+
+    <mt-cell title="是否有不良犯罪记录" :value="crime.value" is-link>
+      <div style="z-index: 2000" @click="popup(crime)">{{crime.value}}</div>
+      <mt-popup v-model="crime.showPopup" position="bottom">
+        <mt-picker :slots="crime.slots" @change="onPickerChange($event, crime)"></mt-picker>
+      </mt-popup>
+    </mt-cell>
+
+    <mt-cell title="是否有逾期及不良征信记录" :value="credit.value" is-link>
+      <div style="z-index: 2000" @click="popup(credit)">{{credit.value}}</div>
+      <mt-popup v-model="credit.showPopup" position="bottom">
+        <mt-picker :slots="credit.slots" @change="onPickerChange($event, credit)"></mt-picker>
+      </mt-popup>
+    </mt-cell>
+
     <div class="submit">
       <mt-button type="primary" @click="submit">生成基本信息</mt-button>
     </div>
@@ -30,6 +56,12 @@ import { create } from '@/api'
 export default {
   name: 'review',
   methods: {
+    popup(template) {
+      template.showPopup = true
+    },
+    onPickerChange(picker, template) {
+      picker.getSlotValue(0) && (template.value = picker.getSlotValue(0))
+    },
     submit() {
       this.$validator.validate().then(result => {
         if (!result) {
@@ -43,13 +75,24 @@ export default {
             姓名: this.name,
             手机号: this.telphone,
             身份证号: this.IDs,
-            家庭住址: this.homeAddress,
-            报考地区: this.regArea,
+            报考省份: this.province,
             申请状态: [
-              mom.add(1, 'M').add(35, 'S').format('H时m分s秒，系统初审通过'),
-              mom.add(4, 'M').add(62, 'S').format('H时m分s秒，部门负责人审核通过'),
-              mom.add(7, 'M').add(97, 'S').format('H时m分s秒，公益服务部审核通过'),
-              mom.add(10, 'M').add(125, 'S').format('H时m分s秒，财务部审核批准')
+              mom
+                .add(1, 'M')
+                .add(35, 'S')
+                .format('H时m分s秒，系统初审通过'),
+              mom
+                .add(4, 'M')
+                .add(62, 'S')
+                .format('H时m分s秒，部门负责人审核通过'),
+              mom
+                .add(7, 'M')
+                .add(97, 'S')
+                .format('H时m分s秒，公益服务部审核通过'),
+              mom
+                .add(10, 'M')
+                .add(125, 'S')
+                .format('H时m分s秒，财务部审核批准')
             ],
             初审编号: 'XSCS' + mom.format('YYYY_MDHms')
           }
@@ -95,8 +138,55 @@ export default {
       name: '',
       telphone: '',
       IDs: '',
-      homeAddress: '',
-      regArea: ''
+      province: '',
+      exam: {
+        value: '否',
+        showPopup: false,
+        slots: [
+          {
+            flex: 1,
+            values: ['否', '是'],
+            className: 'slot3',
+            textAlign: 'center'
+          }
+        ]
+      },
+      certificate: {
+        value: '否',
+        showPopup: false,
+        slots: [
+          {
+            flex: 1,
+            values: ['否', '是'],
+            className: 'slot3',
+            textAlign: 'center'
+          }
+        ]
+      },
+      crime: {
+        value: '否',
+        showPopup: false,
+        slots: [
+          {
+            flex: 1,
+            values: ['否', '是'],
+            className: 'slot3',
+            textAlign: 'center'
+          }
+        ]
+      },
+      credit: {
+        value: '否',
+        showPopup: false,
+        slots: [
+          {
+            flex: 1,
+            values: ['否', '是'],
+            className: 'slot3',
+            textAlign: 'center'
+          }
+        ]
+      }
     }
   }
 }
