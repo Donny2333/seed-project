@@ -76,23 +76,12 @@ export default {
             手机号: this.telphone,
             身份证号: this.IDs,
             报考省份: this.province,
-            申请状态: [
-              mom
-                .add(1, 'M')
-                .add(35, 'S')
-                .format('H时m分s秒，系统初审通过'),
-              mom
-                .add(4, 'M')
-                .add(62, 'S')
-                .format('H时m分s秒，部门负责人审核通过'),
-              mom
-                .add(7, 'M')
-                .add(97, 'S')
-                .format('H时m分s秒，公益服务部审核通过'),
-              mom
-                .add(10, 'M')
-                .add(125, 'S')
-                .format('H时m分s秒，财务部审核批准')
+            审核结果: '审核通过，（学员审核结果：优秀，综合教育评分355）',
+            审核明细: [
+              '无考试违规记录',
+              '无买证违规记录',
+              '无不良犯罪记录',
+              '无逾期及不良征信记录'
             ],
             初审编号: 'XSCS' + mom.format('YYYY_MDHms')
           }
@@ -112,7 +101,8 @@ export default {
                 name: 'Result',
                 params: {
                   title: this.$route.meta.title,
-                  form: form
+                  form: form,
+                  showDetail2: true
                 }
               })
               Indicator.close()

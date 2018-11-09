@@ -24,6 +24,9 @@
       </div>
       <div class="disc red">注：每个手机号只能申请一次请勿重复申请！由此带来不便，敬请谅解。</div>
     </div>
+    <div v-if="showDetail2">
+      <div class="disc red">重要通知：审核通过，审核结果于24小时 之内有效！</div>
+    </div>
   </div>
 </template>
 
@@ -39,22 +42,26 @@ export default {
       tg,
       form: {},
       remainHour: 12,
-      showDetail: false
+      showDetail: false,
+      showDetail2: false
     }
   },
   methods: {
     getData() {
       this.form = this.$route.params.form
       this.showDetail = this.$route.params.showDetail
+      this.showDetail2 = this.$route.params.showDetail2
       this.remainHour = this.$store.state.remainHour
     },
     onClick() {
-      MessageBox.prompt(' ', '分期时间设置').then(({ value, action }) => {
-        if (action === 'confirm' && value > 0) {
-          this.remainHour = value
-          this.$store.dispatch('SetRemainHour', value)
-        }
-      }).catch(() => {})
+      MessageBox.prompt(' ', '分期时间设置')
+        .then(({ value, action }) => {
+          if (action === 'confirm' && value > 0) {
+            this.remainHour = value
+            this.$store.dispatch('SetRemainHour', value)
+          }
+        })
+        .catch(() => {})
     }
   },
   computed: {
