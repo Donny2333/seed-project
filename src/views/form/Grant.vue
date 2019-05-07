@@ -27,7 +27,6 @@
 <script>
 import moment from 'moment'
 import { Toast } from 'mint-ui'
-import { create } from '@/api'
 
 export default {
   name: 'grant',
@@ -91,34 +90,17 @@ export default {
             助学金编号: 'ZXJ' + mom.format('YYYY_MDHms')
           }
 
-          create(
-            Object.assign(
-              {
-                system_id: '7'
-              },
-              form
-            )
-          ).then(
-            res => {
-              this.$router.replace({
-                name: 'Result',
-                params: {
-                  title: this.$route.meta.title,
-                  form: form
-                }
-              })
-              Toast({
-                message: '提交成功',
-                iconClass: 'mintui mint-toast-icon mintui-success'
-              })
-            },
-            err => {
-              Toast({
-                message: '提交失败：' + err,
-                iconClass: 'mintui mint-toast-icon mintui-field-warning'
-              })
+          this.$router.replace({
+            name: 'Result',
+            params: {
+              title: this.$route.meta.title,
+              form: form
             }
-          )
+          })
+          Toast({
+            message: '提交成功',
+            iconClass: 'mintui mint-toast-icon mintui-success'
+          })
         }
       })
     }

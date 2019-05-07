@@ -30,7 +30,6 @@
 <script>
 import { Toast } from 'mint-ui'
 import { Indicator } from 'mint-ui'
-import { create } from '@/api'
 
 export default {
   name: 'bespeak',
@@ -79,37 +78,19 @@ export default {
             预约时间: this.orderTime,
             分校地址: this.regArea
           }
-          Indicator.open('加载中...')
-          create(
-            Object.assign(
-              {
-                system_id: '5'
-              },
-              form
-            )
-          ).then(
-            res => {
-              this.$router.replace({
-                name: 'Result',
-                params: {
-                  title: this.$route.meta.title,
-                  form: form
-                }
-              })
-              Indicator.close()
-              Toast({
-                message: '提交成功',
-                iconClass: 'mintui mint-toast-icon mintui-success'
-              })
-            },
-            err => {
-              Indicator.close()
-              Toast({
-                message: '提交失败：' + err,
-                iconClass: 'mintui mint-toast-icon mintui-field-warning'
-              })
+
+          this.$router.replace({
+            name: 'Result',
+            params: {
+              title: this.$route.meta.title,
+              form: form
             }
-          )
+          })
+          Indicator.close()
+          Toast({
+            message: '提交成功',
+            iconClass: 'mintui mint-toast-icon mintui-success'
+          })
         }
       })
     }

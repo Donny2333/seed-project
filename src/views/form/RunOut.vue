@@ -14,7 +14,6 @@
 <script>
 import moment from 'moment'
 import { Toast } from 'mint-ui'
-import { create } from '@/api'
 
 const formateOption = 'YYYY年MM月DD日HH时mm分ss秒'
 
@@ -29,36 +28,14 @@ export default {
             iconClass: 'mintui mint-toast-icon mintui-field-warning'
           })
         } else {
-          const form = {
-            地区: this.area,
-            时间: this.currentTime,
-            考位: this.numberPlaces
-          }
           this.timer && clearInterval(this.timer)
 
-          create(
-            Object.assign(
-              {
-                system_id: '2'
-              },
-              form
-            )
-          ).then(
-            res => {
-              this.disabled = true
-              this.btnText = '考位名额紧张，请尽快确认报考'
-              Toast({
-                message: '提交成功',
-                iconClass: 'mintui mint-toast-icon mintui-success'
-              })
-            },
-            err => {
-              Toast({
-                message: '提交失败：' + err,
-                iconClass: 'mintui mint-toast-icon mintui-field-warning'
-              })
-            }
-          )
+          this.disabled = true
+          this.btnText = '考位名额紧张，请尽快确认报考'
+          Toast({
+            message: '提交成功',
+            iconClass: 'mintui mint-toast-icon mintui-success'
+          })
         }
       })
     }

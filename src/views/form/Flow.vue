@@ -61,7 +61,6 @@
 <script>
 import { Toast } from 'mint-ui'
 import { Indicator } from 'mint-ui'
-import { create } from '@/api'
 
 export default {
   name: 'flow',
@@ -106,38 +105,18 @@ export default {
             意向: this.intention
           }
 
-          Indicator.open('加载中...')
-
-          create(
-            Object.assign(
-              {
-                system_id: '1'
-              },
-              form
-            )
-          ).then(
-            res => {
-              this.$router.replace({
-                name: 'Result',
-                params: {
-                  title: this.$route.meta.title,
-                  form: form
-                }
-              })
-              Indicator.close()
-              Toast({
-                message: '提交成功',
-                iconClass: 'mintui mint-toast-icon mintui-success'
-              })
-            },
-            err => {
-              Indicator.close()
-              Toast({
-                message: '提交失败：' + err,
-                iconClass: 'mintui mint-toast-icon mintui-field-warning'
-              })
+          this.$router.replace({
+            name: 'Result',
+            params: {
+              title: this.$route.meta.title,
+              form: form
             }
-          )
+          })
+          Indicator.close()
+          Toast({
+            message: '提交成功',
+            iconClass: 'mintui mint-toast-icon mintui-success'
+          })
         }
       })
     }
