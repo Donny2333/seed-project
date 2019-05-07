@@ -22,14 +22,14 @@ export default {
         //   name: '考位信息',
         //   router: 'runOut'
         // },
-        {
-          name: '新生注册',
-          router: 'registry'
-        },
-        {
-          name: '报名初审',
-          router: 'review'
-        },
+        // {
+        //   name: '新生注册',
+        //   router: 'registry'
+        // },
+        // {
+        //   name: '报名初审',
+        //   router: 'review'
+        // },
         {
           name: '预约分校',
           router: 'bespeak'
