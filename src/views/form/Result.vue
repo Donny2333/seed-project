@@ -25,7 +25,7 @@
       <div class="disc red">注：每个手机号只能申请一次请勿重复申请！由此带来不便，敬请谅解。</div>
     </div>
     <div v-if="showDetail2">
-      <div class="disc red">重要通知：审核通过，审核结果于24小时 之内有效！</div>
+      <div class="disc red">重要通知：尚德内部审核通过，审核结果于24小时 之内有效！</div>
     </div>
   </div>
 </template>
