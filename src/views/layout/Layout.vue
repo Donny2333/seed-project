@@ -1,8 +1,10 @@
 <template>
   <div class='main'>
     <div class='head'>
-      <img :src="logo" alt="尚德机构">
-      <h2>{{title}}</h2>
+      <div class='head-content'>
+        <img :src="logo" alt="尚德机构">
+        <h2>{{title}}</h2>
+      </div>
     </div>
     <div class="body">
       <router-view></router-view>
@@ -35,12 +37,19 @@ export default {
   margin: 0 auto;
   background: url('../../asset/img/bg.jpg');
   color: white;
-  display: flex;
-  align-items: center;
+
   padding-left: 10px;
 
+  .head-content {
+    margin: 0 auto;
+    height: 100%;
+    width: 700px;
+    display: flex;
+    align-items: center;
+  }
+
   img {
-    margin-right: 10px;
+    margin-right: 20px;
   }
 }
 </style>

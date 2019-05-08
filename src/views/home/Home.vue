@@ -68,11 +68,11 @@ export default {
 .table {
   height: 100%;
   width: 100%;
-  padding: 5px;
+  padding: 15px;
 
   .cell {
     position: relative;
-    height: 50px;
+    height: 60px;
     width: 33%;
     display: inline-block;
     margin: 0 auto;

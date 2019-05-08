@@ -4,7 +4,7 @@
       <tbody>
         <tr v-for="(value, key) in form" :key="key">
           <td height="40" width="30%" align="center" valign="middle">{{key}}</td>
-          <td v-if="value.constructor===Array" style="padding-left: 20px">
+          <td v-if="value.constructor===Array" style="padding-left: 20px; position: relative">
             <img class="tg" :src="tg">
             <ol>
               <li v-for="(item, index) in value" :key="index" style="padding: 5px 0">
