@@ -35,7 +35,8 @@ Vue.use(VeeValidate, {
         deadline: '截止日期',
         quota: '总名额',
         assigned: '已申请名额',
-        remain: '剩余名额'
+        remain: '剩余名额',
+        discount: '优惠券额度'
       }
     }
   }

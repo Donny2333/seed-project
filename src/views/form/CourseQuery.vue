@@ -6,23 +6,30 @@
     </mt-cell>
 
     <mt-cell title="报考地区" :value="regArea.value" is-link>
-      <div style="z-index: 2000" @click="popup(regArea)">{{regArea.value}}</div>
+      <div style="z-index: 2000" @click="popup(regArea)">{{regArea.value && regArea.value.value}}</div>
       <mt-popup v-model="regArea.showPopup" position="bottom">
-        <mt-picker :slots="regArea.slots" v-model="regArea.value" @change="onRegAreaChange"></mt-picker>
+        <mt-picker :slots="regArea.slots" v-model="regArea.value" value-key="value" @change="onRegAreaChange"></mt-picker>
       </mt-popup>
     </mt-cell>
 
-    <mt-field name="academy" v-validate="'required'" label="院校" placeholder="请填写院校" v-model="academy">
-      <span class="validate" v-show="errors.has('academy')">{{ errors.first('academy') }}</span>
-    </mt-field>
-    <mt-field name="subject" v-validate="'required'" label="专业" placeholder="请填写专业" v-model="subject">
-      <span class="validate" v-show="errors.has('subject')">{{ errors.first('subject') }}</span>
-    </mt-field>
+    <mt-cell title="院校" :value="academy.value" is-link>
+      <div style="z-index: 2000" @click="popup(academy)">{{academy.value && academy.value.value}}</div>
+      <mt-popup v-model="academy.showPopup" position="bottom">
+        <mt-picker :slots="academy.slots" v-model="academy.value" value-key="value" @change="onAcademyChange"></mt-picker>
+      </mt-popup>
+    </mt-cell>
+
+    <mt-cell title="专业" :value="subject.value" is-link>
+      <div style="z-index: 2000" @click="popup(subject)">{{subject.value && subject.value.value}}</div>
+      <mt-popup v-model="subject.showPopup" position="bottom">
+        <mt-picker :slots="subject.slots" v-model="subject.value" value-key="value" @change="onSubjectChange"></mt-picker>
+      </mt-popup>
+    </mt-cell>
 
     <mt-cell title="班型" :value="classType.value" is-link>
-      <div style="z-index: 2000" @click="popup(classType)">{{classType.value}}</div>
+      <div style="z-index: 2000" @click="popup(classType)">{{classType.value && (classType.value.itemName)}}</div>
       <mt-popup v-model="classType.showPopup" position="bottom">
-        <mt-picker ref="classTypePicker" :slots="classType.slots" :showToolbar="true" value-key="name" @change="onClassTypeChange"></mt-picker>
+        <mt-picker :slots="classType.slots" v-model="classType.value" value-key="itemName" @change="onClassTypeChange"></mt-picker>
       </mt-popup>
     </mt-cell>
 
@@ -33,13 +40,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import request from '@/utils/request'
 import * as moment from 'moment'
 import { MessageBox } from 'mint-ui'
 
 export default {
   data() {
-    const classType = this.$store.state.classType
     const cities = this.$store.state.cities
+    const categories = this.$store.state.categories
 
     return {
       datePicker: moment()
@@ -49,7 +58,7 @@ export default {
         .add(2, 'days')
         .format('YYYY-MM-DD'),
       regArea: {
-        value: '安徽',
+        value: cities[0],
         showPopup: false,
         slots: [
           {
@@ -61,8 +70,31 @@ export default {
         ]
       },
 
-      academy: '',
-      subject: '',
+      academy: {
+        value: categories[0],
+        showPopup: false,
+        slots: [
+          {
+            flex: 1,
+            values: categories,
+            className: 'slot3',
+            textAlign: 'center'
+          }
+        ]
+      },
+
+      subject: {
+        value: '',
+        showPopup: false,
+        slots: [
+          {
+            flex: 1,
+            values: [],
+            className: 'slot3',
+            textAlign: 'center'
+          }
+        ]
+      },
 
       classType: {
         value: '',
@@ -70,26 +102,12 @@ export default {
         slots: [
           {
             flex: 1,
-            values: classType,
-            defaultIndex: 10,
-            className: 'slot1',
-            textAlign: 'right'
-          },
-          {
-            divider: true,
-            content: '-',
-            className: 'slot2'
-          },
-          {
-            flex: 2,
-            values: classType[0].childs,
-            defaultIndex: 0,
+            values: [],
             className: 'slot3',
-            textAlign: 'left'
+            textAlign: 'center'
           }
         ]
       },
-      classTypePicker: ['1', '1-1'],
 
       quota: 100,
       assigned: 80
@@ -100,16 +118,66 @@ export default {
 
     this.datePicker = routeParams.datePicker || this.datePicker
     this.deadline = routeParams.deadline || this.deadline
+    this.regArea = routeParams.regArea || this.regArea
     this.academy = routeParams.academy || this.academy
     this.subject = routeParams.subject || this.subject
-    this.classTypePicker = routeParams.classTypePicker || this.classTypePicker
+    this.classType = routeParams.classType || this.classType
+
     this.quota = routeParams.quota || this.quota
     this.assigned = routeParams.assigned || this.assigned
 
-    this.regArea.value =
-      (routeParams.regArea && routeParams.regArea.value) || this.regArea.value
+    if (this.categories.length) {
+      this.getSubject(this.categories[0].id)
+    }
+  },
+  watch: {
+    cities(value) {
+      this.regArea.value = value[0]
+      this.regArea.slots[0].values = value
+    },
+    categories(value) {
+      // 赋值院校
+      this.academy.value = value[0]
+      this.academy.slots[0].values = value
+
+      // 赋值专业
+      this.getSubject(value[0].id).then(_ => {
+        // 赋值班型
+        this.getClass({
+          provinceId: this.regArea.value.id,
+          categoryId: value[0].id,
+          subjectId: this.subject.value.id
+        })
+      })
+    },
+    'regArea.value': function(value) {
+      if (this.academy.value && this.subject.value) {
+        this.getClass({
+          provinceId: value.id,
+          categoryId: this.academy.value.id,
+          subjectId: this.subject.value.id
+        })
+      }
+    },
+    'academy.value': function(value) {
+      this.getSubject(value.id).then(_ => {
+        this.getClass({
+          provinceId: this.regArea.value.id,
+          categoryId: value.id,
+          subjectId: this.subject.value.id
+        })
+      })
+    },
+    'subject.value': function(value) {
+      this.getClass({
+        provinceId: this.regArea.value.id,
+        categoryId: this.academy.value.id,
+        subjectId: value.id
+      })
+    }
   },
   computed: {
+    ...mapGetters(['cities', 'categories']),
     remain: {
       get() {
         const remain = this.quota - this.assigned
@@ -123,6 +191,33 @@ export default {
     }
   },
   methods: {
+    getSubject(categoryId) {
+      return request
+        .get(
+          process.env.BASE_API +
+            '/major/v1/index/category-two?categoryId=' +
+            categoryId
+        )
+        .then(res => {
+          if (res.code === 200) {
+            this.subject.value = res.data[0]
+            this.subject.slots[0].values = res.data
+          }
+        })
+    },
+    getClass({ provinceId, categoryId, subjectId }) {
+      return request
+        .get(
+          process.env.BASE_API +
+            `/major/v1/index/search-major?provinceId=${provinceId}&categoryOneId=${categoryId}&categoryTwoId=${subjectId}`
+        )
+        .then(res => {
+          if (res.code === 200) {
+            this.classType.value = res.data[0]
+            this.classType.slots[0].values = res.data
+          }
+        })
+    },
     popup(template) {
       template.showPopup = true
     },
@@ -133,42 +228,24 @@ export default {
       this.deadline = moment(date).format('YYYY-MM-DD')
     },
     onClassTypeChange(picker, values) {
-      const classType = this.$store.state.classType
-
-      if (!values[0]) {
-        this.$nextTick(() => {
-          picker.setValues([
-            classType[this.classTypePicker[0] - 1],
-            classType[this.classTypePicker[0] - 1].childs[
-              this.classTypePicker[1].split('-')[1] - 1
-            ]
-          ])
-        })
-      } else {
-        picker.setSlotValues(1, values[0].childs)
-        this.classTypePicker = [
-          picker.getSlotValue(0).id,
-          picker.getSlotValue(1).id
-        ]
-        this.classType.value = [
-          picker.getSlotValue(0).name,
-          picker.getSlotValue(1).name
-        ].join(' ')
-      }
-    },
-    onDeadlineChange(picker, values) {
-      picker.getSlotValue(0) && (this.deadline.value = picker.getSlotValue(0))
+      picker.getSlotValue(0) && (this.classType.value = picker.getSlotValue(0))
     },
     onRegAreaChange(picker, values) {
       picker.getSlotValue(0) && (this.regArea.value = picker.getSlotValue(0))
+    },
+    onAcademyChange(picker, values) {
+      picker.getSlotValue(0) && (this.academy.value = picker.getSlotValue(0))
+    },
+    onSubjectChange(picker, values) {
+      picker.getSlotValue(0) && (this.subject.value = picker.getSlotValue(0))
     },
     submit() {
       this.$validator.validate().then(result => {
         if (result) {
           MessageBox({
-            title: `${this.regArea.value}地区 ${this.academy}院校 ${
-              this.subject
-            }专业 ${this.classType.value}班型`,
+            title: `${this.regArea.value.value} ${this.academy.value.value} ${
+              this.subject.value.value
+            } ${this.classType.value.itemName}`,
             message:
               `<div class="msgbox-deadline">(截止${this.deadline})</div>` +
               `<div class="msgbox-main">` +
@@ -190,7 +267,6 @@ export default {
                   academy: this.academy,
                   subject: this.subject,
                   classType: this.classType,
-                  classTypePicker: this.classTypePicker,
                   quota: this.quota,
                   assigned: this.assigned
                 }
