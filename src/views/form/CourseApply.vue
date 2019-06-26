@@ -156,6 +156,52 @@ export default {
         .format('YYYY年MM月DD日HH点mm分')
     }
   },
+  watch: {
+    cities(value) {
+      this.regArea.value = value[0]
+      this.regArea.slots[0].values = value
+    },
+    categories(value) {
+      // 赋值院校
+      this.academy.value = value[0]
+      this.academy.slots[0].values = value
+
+      // 赋值专业
+      this.getSubject(value[0].id).then(_ => {
+        // 赋值班型
+        this.getClass({
+          provinceId: this.regArea.value.id,
+          categoryId: value[0].id,
+          subjectId: this.subject.value.id
+        })
+      })
+    },
+    'regArea.value': function(value) {
+      if (this.academy.value && this.subject.value) {
+        this.getClass({
+          provinceId: value.id,
+          categoryId: this.academy.value.id,
+          subjectId: this.subject.value.id
+        })
+      }
+    },
+    'academy.value': function(value) {
+      this.getSubject(value.id).then(_ => {
+        this.getClass({
+          provinceId: this.regArea.value.id,
+          categoryId: value.id,
+          subjectId: this.subject.value.id
+        })
+      })
+    },
+    'subject.value': function(value) {
+      this.getClass({
+        provinceId: this.regArea.value.id,
+        categoryId: this.academy.value.id,
+        subjectId: value.id
+      })
+    }
+  },
   mounted() {
     const routeParams = this.$route.params
 
@@ -232,7 +278,9 @@ export default {
           })
         } else {
           MessageBox({
-            title: `${this.subject} 专业 ${this.classType.value} 班型 申请成功`,
+            title: `${this.subject.value.value} 专业 ${
+              this.classType.value.itemName
+            } 申请成功`,
             message: `<div class="msgbox-main"><div class="disc">此申请<span class="red">${
               this.remainHour
             }小时</span>内有效，请于<span class="red">${
