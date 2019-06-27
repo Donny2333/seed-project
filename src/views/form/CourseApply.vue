@@ -277,20 +277,37 @@ export default {
             iconClass: 'mintui mint-toast-icon mintui-field-warning'
           })
         } else {
-          MessageBox({
-            title: `${this.subject.value.value} 专业 ${
-              this.classType.value.itemName
-            } 申请成功`,
-            message: `<div class="msgbox-main"><div class="disc">此申请<span class="red">${
-              this.remainHour
-            }小时</span>内有效，请于<span class="red">${
-              this.deadtime
-            }</span>前完成分期手续。</div><div class="disc red">注：每个手机号只能申请一次请勿重复申请！由此带来不便，敬请谅解。</div></div>`
-          })
-          Toast({
-            message: '提交成功',
-            iconClass: 'mintui mint-toast-icon mintui-success'
-          })
+          request
+            .post(process.env.BASE_API + '/generaltools/api/record-log', {
+              stu_mobile: this.telphone,
+              source: '开班名额申请'
+            })
+            .then(res => {
+              if (res.code === 200) {
+                MessageBox({
+                  title: `${this.subject.value.value} 专业 ${
+                    this.classType.value.itemName
+                  } 申请成功`,
+                  message: `<div class="msgbox-main"><div class="disc">此申请<span class="red">${
+                    this.remainHour
+                  }小时</span>内有效，请于<span class="red">${
+                    this.deadtime
+                  }</span>前完成分期手续。</div><div class="disc red">注：每个手机号只能申请一次请勿重复申请！由此带来不便，敬请谅解。</div></div>`
+                })
+                Toast({
+                  message: '提交成功',
+                  iconClass: 'mintui mint-toast-icon mintui-success'
+                })
+              } else {
+                throw res
+              }
+            })
+            .catch(e => {
+              Toast({
+                message: '录入失败',
+                iconClass: 'mintui mint-toast-icon mintui-field-warning'
+              })
+            })
         }
       })
     }

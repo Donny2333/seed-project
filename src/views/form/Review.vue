@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import request from '@/utils/request'
 import moment from 'moment'
 import { Toast } from 'mint-ui'
 import { Indicator } from 'mint-ui'
@@ -85,19 +86,36 @@ export default {
             初审编号: 'XSCS' + mom.format('YYYY_MDHms')
           }
 
-          this.$router.replace({
-            name: 'Result',
-            params: {
-              title: this.$route.meta.title,
-              form: form,
-              showDetail2: true
-            }
-          })
-          Indicator.close()
-          Toast({
-            message: '提交成功',
-            iconClass: 'mintui mint-toast-icon mintui-success'
-          })
+          request
+            .post(process.env.BASE_API + '/generaltools/api/record-log', {
+              stu_mobile: this.telphone,
+              source: '新生报考初审系统'
+            })
+            .then(res => {
+              if (res.code === 200) {
+                this.$router.replace({
+                  name: 'Result',
+                  params: {
+                    title: this.$route.meta.title,
+                    form: form,
+                    showDetail2: true
+                  }
+                })
+                Indicator.close()
+                Toast({
+                  message: '提交成功',
+                  iconClass: 'mintui mint-toast-icon mintui-success'
+                })
+              } else {
+                throw res
+              }
+            })
+            .catch(e => {
+              Toast({
+                message: '录入失败',
+                iconClass: 'mintui mint-toast-icon mintui-field-warning'
+              })
+            })
         }
       })
     }

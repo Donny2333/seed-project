@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import request from '@/utils/request'
 import { Toast } from 'mint-ui'
 import { Indicator } from 'mint-ui'
 
@@ -79,18 +80,35 @@ export default {
             分校地址: this.regArea
           }
 
-          this.$router.replace({
-            name: 'Result',
-            params: {
-              title: this.$route.meta.title,
-              form: form
-            }
-          })
-          Indicator.close()
-          Toast({
-            message: '提交成功',
-            iconClass: 'mintui mint-toast-icon mintui-success'
-          })
+          request
+            .post(process.env.BASE_API + '/generaltools/api/record-log', {
+              stu_mobile: this.telphone,
+              source: '分校预约系统'
+            })
+            .then(res => {
+              if (res.code === 200) {
+                this.$router.replace({
+                  name: 'Result',
+                  params: {
+                    title: this.$route.meta.title,
+                    form: form
+                  }
+                })
+                Indicator.close()
+                Toast({
+                  message: '提交成功',
+                  iconClass: 'mintui mint-toast-icon mintui-success'
+                })
+              } else {
+                throw res
+              }
+            })
+            .catch(e => {
+              Toast({
+                message: '录入失败',
+                iconClass: 'mintui mint-toast-icon mintui-field-warning'
+              })
+            })
         }
       })
     }
