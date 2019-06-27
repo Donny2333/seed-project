@@ -6,9 +6,9 @@
     </mt-cell>
 
     <mt-cell title="报考地区" :value="regArea.value" is-link>
-      <div style="z-index: 2000" @click="popup(regArea)">{{regArea.value}}</div>
+      <div style="z-index: 2000" @click="popup(regArea)">{{regArea.value.value}}</div>
       <mt-popup v-model="regArea.showPopup" position="bottom">
-        <mt-picker :slots="regArea.slots" v-model="regArea.value" @change="onRegAreaChange"></mt-picker>
+        <mt-picker :slots="regArea.slots" v-model="regArea.value" value-key="value" @change="onRegAreaChange"></mt-picker>
       </mt-popup>
     </mt-cell>
 
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import * as moment from 'moment'
 import { Toast } from 'mint-ui'
 
@@ -44,7 +45,7 @@ export default {
         .add(2, 'days')
         .format('YYYY-MM-DD'),
       regArea: {
-        value: '安徽',
+        value: cities[0],
         showPopup: false,
         slots: [
           {
@@ -60,6 +61,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['cities']),
     remain: {
       get() {
         const remain = this.quota - this.assigned
@@ -71,6 +73,14 @@ export default {
       },
       set() {}
     }
+  },
+  watch: {
+    cities(value) {
+      this.regArea.value = value[0]
+      this.regArea.slots[0].values = value
+    }
+  },
+  mounted() {
   },
   methods: {
     popup(template) {
